@@ -30,6 +30,29 @@ Dio get dio => _dio;
 enum FormDataType{post, patch}
 final Map<String, dynamic> _headers={};
 
+  Future<T> get<T>(
+       String uri,
+    {
+    Map<String, dynamic>? requestHeaders,
+  Map<String, File> images= const {},
+  Map<String, File> queryParameters= const {},
+  CancelToken? cancelToken,
+  ProgressCallback? onReceiveProgress,
+  }) async{
+    try{
+      Response response = await _dio.get(
+        uri,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: Options( headers: requestHeaders ?? {})
+      );  
+      return response.data;
+    } on Failure{
+      rethrow;
+    }
+  }
+
 Future<dynamic> sendFormData(FormDataType requestType,{
   
   required String uri,
