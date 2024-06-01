@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:my_network_dio_websocket/network_intercepetors.dart';
 
@@ -21,7 +23,28 @@ Dio _createDio(){
   return dio;
 }
 
-Future<dynamic> sendFormData(){
-  
+final Dio _dio = _createDio();
+Dio get dio => _dio;
+
+Future<dynamic> sendFormData({
+  FormDataType requestType,
+  required String uri,
+  Map<String, File> images= const {},
+  required Map<String, dynamic> body ,
+  // Map<>
+})async{
+   try{
+    Map<String, MultipartFile> multipartImages={};
+    await Future.forEach<MapEntry<String, File>>(images.entries, (element) async {
+      multipartImages[element.key] = await MultipartFile.fromFile(element.value.path);
+    });
+
+    FormData formData = FormData.fromMap({...body, ...multipartImages});
+    if(FormData.patch == requestType){
+      response = await _dio.patch();
+    }
+   }catch{
+
+   } 
 }
 
