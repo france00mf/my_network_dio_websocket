@@ -1,5 +1,6 @@
 
 import 'package:dio/dio.dart';
+import 'package:my_network_dio_websocket/network_intercepetors.dart';
 
 String get _baseUrl{
  return "https://routex-demo.onrender.com";
@@ -16,6 +17,6 @@ Dio _createDio(){
     )
   ) ;
 
-  // dio.interceptors.add();
+  dio.interceptors.add(NetworkServiceInterceptors());
   return dio;
 }
