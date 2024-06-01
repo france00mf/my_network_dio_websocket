@@ -40,11 +40,31 @@ Future<dynamic> sendFormData({
     });
 
     FormData formData = FormData.fromMap({...body, ...multipartImages});
+    Response response;
     if(FormData.patch == requestType){
-      response = await _dio.patch();
+      response = await _dio.patch(
+        uri,
+        queryParameters: queryParameters,
+        data: formData,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: Options(
+          headers: _headers,
+        )
+      );
+    } else{
+      response = await _dio.post(
+        uri,
+        queryParameters: queryParameters,
+        data: formData,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: Options(headers: _headers),
+      );
     }
-   }catch{
-
+    return response.data;
+   }on Failure{
+    rethrow;
    } 
 }
 
