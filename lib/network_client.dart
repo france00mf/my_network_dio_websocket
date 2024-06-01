@@ -20,3 +20,8 @@ Dio _createDio(){
   dio.interceptors.add(NetworkServiceInterceptors());
   return dio;
 }
+
+Future<dynamic> sendFormData(){
+  
+}
+
