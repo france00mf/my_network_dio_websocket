@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:my_network_dio_websocket/errors/failure.dart';
 import 'package:my_network_dio_websocket/network_intercepetors.dart';
 
 String get _baseUrl{
@@ -26,11 +27,17 @@ Dio _createDio(){
 final Dio _dio = _createDio();
 Dio get dio => _dio;
 
-Future<dynamic> sendFormData({
-  FormDataType requestType,
+enum FormDataType{post, patch}
+final Map<String, dynamic> _headers={};
+
+Future<dynamic> sendFormData(FormDataType requestType,{
+  
   required String uri,
   Map<String, File> images= const {},
   required Map<String, dynamic> body ,
+  Map<String, File> queryParameters= const {},
+  CancelToken? cancelToken,
+  ProgressCallback? onReceiveProgress,
   // Map<>
 })async{
    try{
@@ -41,7 +48,7 @@ Future<dynamic> sendFormData({
 
     FormData formData = FormData.fromMap({...body, ...multipartImages});
     Response response;
-    if(FormData.patch == requestType){
+    if(FormDataType.patch == requestType){
       response = await _dio.patch(
         uri,
         queryParameters: queryParameters,
