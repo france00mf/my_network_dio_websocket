@@ -98,3 +98,60 @@ Future<dynamic> sendFormData(FormDataType requestType,{
    } 
 }
 
+ Future<dynamic> post(
+    
+    String uri, {
+
+    Map<String, dynamic> queryParameters = const {},
+    Object? body,
+    Map<String, dynamic>? requestHeaders,
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      Response response = await _dio.post(
+        uri,
+        queryParameters: queryParameters,
+        data: body,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: Options(
+          headers: requestHeaders ?? _headers,
+        ),
+      );
+      
+      return response.data;
+    } on Failure {
+      rethrow;
+    }
+  }
+
+
+    Future<T> put<T>(
+    
+    String uri, {
+
+    Map<String, dynamic> queryParameters = const {},
+    Object body = const {},
+    CancelToken? cancelToken,
+    ProgressCallback? onReceiveProgress,
+    Map<String, dynamic>? requestHeaders,
+  }) async {
+    try {
+      Response response = await _dio.put(
+        uri,
+        queryParameters: queryParameters,
+        data: body,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: Options(
+          headers: requestHeaders ?? _headers,
+        ),
+      );
+      
+      return response.data;
+    } on Failure {
+      rethrow;
+    }
+  }
+
