@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_network_dio_websocket/errors/failure.dart';
 import 'package:my_network_dio_websocket/network_intercepetors.dart';
 
+
 String get _baseUrl{
  return "https://routex-demo.onrender.com";
 }
@@ -25,10 +26,14 @@ Dio _createDio(){
   return dio;
 }
 
+enum FormDataType{post, patch}
+
+class NetWorkClient{
+
 final Dio _dio = _createDio();
 Dio get dio => _dio;
 
-enum FormDataType{post, patch}
+
 final Map<String, dynamic> _headers={};
 
   Future<T> get<T>(
@@ -258,6 +263,8 @@ Future<dynamic> sendFormData(FormDataType requestType,{
       rethrow;
     }
   }
+
+}
 
   final networkClientProvider = Provider<NetWorkClient>(
     (ref) => NetWorkClient(),
