@@ -22,7 +22,10 @@ Dio _createDio(){
     )
   ) ;
 
-  dio.interceptors.add(NetworkServiceInterceptors());
+  dio.interceptors.add(NetworkServiceInterceptors(
+    dio,
+    errorKey: 'message'
+  ));
   return dio;
 }
 
