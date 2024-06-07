@@ -18,5 +18,50 @@ class NetworkServiceInterceptors extends Interceptor{
     }
   );
 
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler)async {
+    // TODO: implement onError
+
+      _logger.e("Error from Dio: ",
+        functionName: "onError", error: err.toString());
+        if(err.response?.statusCode!=null){
+            switch(err.response?.statusCode){
+                case 400:
+          err = BadRequestException(
+            err.requestOptions,
+            err.response,
+            errorKey,
+          );
+          break;
+
+              case 401:
+          err = UnAuthorizedException(
+            err.requestOptions,
+            err.response,
+            errorKey,
+          );
+          break;
+          
+          case 403:
+          err = UnAuthorizedException(
+            err.requestOptions,
+            err.response,
+            errorKey,
+          );
+          break;
+
+           case 404:
+          err = NotFoundException(
+            err.requestOptions,
+            err.response,
+            errorKey,
+          );
+          break;
+
+            }
+        }
+
+    super.onError(err, handler);
+  }
 
 }
