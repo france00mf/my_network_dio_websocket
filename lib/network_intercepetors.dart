@@ -1,5 +1,9 @@
 
 import 'package:dio/dio.dart';
+import 'package:my_network_dio_websocket/exceptions/not_found_exception.dart';
+import 'package:my_network_dio_websocket/exceptions/request_unknown_exception.dart';
+import 'package:my_network_dio_websocket/exceptions/server_communication_exception.dart';
+import 'package:my_network_dio_websocket/exceptions/unauthorized_exceptions.dart';
 import 'package:my_network_dio_websocket/utils/app_logger.dart';
 
 class NetworkServiceInterceptors extends Interceptor{
@@ -57,7 +61,21 @@ class NetworkServiceInterceptors extends Interceptor{
             errorKey,
           );
           break;
-
+           case 500:
+            err = InternalServerCommunicationException(
+              err.response
+            );
+            break;
+            case 503:
+            err = ServerCommunicationException(
+              err.response
+            );
+            break;
+            default:
+              err = RequestUnknownExcpetion(
+                err.requestOptions, 
+                err.response
+              )
             }
         }
 
