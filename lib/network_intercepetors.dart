@@ -109,4 +109,14 @@ class NetworkServiceInterceptors extends Interceptor{
     return handler.next(err);
   }
 
+  @override
+  Future<dynamic> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler
+  ) async{
+    return handler.next(options); 
+  }
+
+  
+
 }
