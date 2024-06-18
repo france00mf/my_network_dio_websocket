@@ -2,6 +2,7 @@
 
 import 'package:dio/dio.dart';
 import 'package:my_network_dio_websocket/errors/failure.dart';
+import 'package:my_network_dio_websocket/exceptions/get_error.dart';
 
 
 const _unkownErrorString = "An error occured, please try again. ";
