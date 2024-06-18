@@ -65,6 +65,7 @@ class NetworkServiceInterceptors extends Interceptor{
           break;
            case 500:
             err = InternalServerErrorException(
+              err.requestOptions,
               err.response
             );
             break;
@@ -77,11 +78,32 @@ class NetworkServiceInterceptors extends Interceptor{
               err = RequestUnknownExcpetion(
                 err.requestOptions, 
                 err.response
-              )
+              );
             }
+        } else{
+          switch (err.type) {
+            case DioExceptionType.connectionError:
+            case DioExceptionType.sendTimeout:
+            case DioExceptionType.receiveTimeout:
+            case DioExceptionType.connectionTimeout:
+              err = DeadLineExceededException(err.requestOptions);            
+              break;
+            case DioExceptionType.badCertificate:
+              err = BadCertificateException(err.requestOptions);
+            case DioExceptionType.badResponse:
+              err = BadRequestException(err.requestOptions);
+            case DioExceptionType.cancel:
+              err = CancelRequestException(err.requestOptions);
+              break;
+            case DioExceptionType.unknown:
+              err = RequestUnknownExcpetion(err.requestOptions);
+              break ;
+
+            
+          }
         }
 
-    super.onError(err, handler);
+    return handler.next(err);
   }
 
 }

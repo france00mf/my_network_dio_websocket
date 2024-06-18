@@ -7,7 +7,7 @@ class RequestUnknownExcpetion extends DioException implements Failure {
   @override
   final RequestOptions requestOptions;
 
-  RequestUnknownExcpetion({required this.serverResponse, required this.requestOptions}): super(requestOptions: requestOptions,response: serverResponse );
+  RequestUnknownExcpetion( this.requestOptions, [this.serverResponse]): super(requestOptions: requestOptions,response: serverResponse );
 
 
   @override
