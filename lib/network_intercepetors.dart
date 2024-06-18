@@ -2,6 +2,7 @@
 import 'package:dio/dio.dart';
 import 'package:my_network_dio_websocket/exceptions/bad_ceriticate_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/bad_request_exception.dart';
+import 'package:my_network_dio_websocket/exceptions/deadline_exceeded_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/internal_server_error_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/not_found_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/request_unknown_exception.dart';
