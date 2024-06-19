@@ -117,6 +117,35 @@ class NetworkServiceInterceptors extends Interceptor{
     return handler.next(options); 
   }
 
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) async{
+    // TODO: implement onResponse
+    checkStatusCode(response.requestOptions, response);
+    return handler.next(response);
+  }
+
+  checkStatusCode(
+    RequestOptions requestOptions,
+    Response? response
+  ){
+    try {
+        switch(response?.statusCode){
+          case 200:
+          case 204:
+          case 201:
+            break;
+          case 400:
+            throw BadRequestException(requestOptions, response);
+          case 401:
+            throw UnAuthorizedException(requestOptions);
+          case 404:
+            throw NotFoundException(requestOptions);
+        }
+    } catch (e) {
+      
+    }
+  }
+
   
 
 }
