@@ -1,8 +1,10 @@
 
 import 'package:dio/dio.dart';
+import 'package:my_network_dio_websocket/errors/errors.dart';
 import 'package:my_network_dio_websocket/exceptions/bad_ceriticate_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/bad_request_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/cancel_request_exception.dart';
+import 'package:my_network_dio_websocket/exceptions/conflict_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/deadline_exceeded_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/internal_server_error_exception.dart';
 import 'package:my_network_dio_websocket/exceptions/not_found_exception.dart';
@@ -140,9 +142,15 @@ class NetworkServiceInterceptors extends Interceptor{
             throw UnAuthorizedException(requestOptions);
           case 404:
             throw NotFoundException(requestOptions);
+          case 409:
+            throw ConflictException(requestOptions, response);
+          case 500:
+            throw InternalServerErrorException(requestOptions);
+          default:
+            throw ServerCommunicationException(response);
         }
-    } catch (e) {
-      
+    } on Failure {
+        rethrow;
     }
   }
 
